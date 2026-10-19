@@ -1,5 +1,33 @@
 [
   {
+    "provider": "SAFEAILABS",
+    "provider_display_name": "Safe AI Labs",
+    "litellm_provider": "safeailabs",
+    "credential_fields": [
+      {
+        "key": "api_base",
+        "label": "API Base",
+        "placeholder": "https://us-region.api.safeailabs.ai/v1",
+        "tooltip": null,
+        "required": false,
+        "field_type": "text",
+        "options": null,
+        "default_value": null
+      },
+      {
+        "key": "api_key",
+        "label": "API Key",
+        "placeholder": null,
+        "tooltip": null,
+        "required": true,
+        "field_type": "password",
+        "options": null,
+        "default_value": null
+      }
+    ],
+    "default_model_placeholder": "safeailabs/deepseek/deepseek-v4.1-flash"
+  },
+  {
     "provider": "SCALEDOWN",
     "provider_display_name": "ScaleDown",
     "litellm_provider": "scaledown",

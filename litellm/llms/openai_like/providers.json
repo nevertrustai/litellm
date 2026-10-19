@@ -249,5 +249,11 @@
       "/v1/responses",
       "/v1/messages"
     ]
+  },
+  "safeailabs": {
+    "base_url": "https://us-region.api.safeailabs.ai/v1",
+    "api_key_env": "SAFE_AI_KEY",
+    "api_base_env": "SAFE_AI_BASE_URL",
+    "supported_endpoints": ["/v1/chat/completions", "/v1/responses", "/v1/messages"]
   }
 }

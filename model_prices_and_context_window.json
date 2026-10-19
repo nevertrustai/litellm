@@ -75662,6 +75662,28 @@
         "supports_reasoning": true,
         "source": "https://api.openinfer.ai/v1/models"
     },
+    "safeailabs/deepseek/deepseek-v4.1-flash": {
+        "cache_read_input_token_cost": 3e-08,
+        "input_cost_per_token": 3e-07,
+        "litellm_provider": "safeailabs",
+        "max_input_tokens": 1048576,
+        "max_output_tokens": 65536,
+        "max_tokens": 65536,
+        "mode": "chat",
+        "output_cost_per_token": 1e-06,
+        "source": "https://us-region.api.safeailabs.ai/v1/models",
+        "supported_endpoints": [
+            "/v1/chat/completions",
+            "/v1/responses",
+            "/v1/messages"
+        ],
+        "supports_function_calling": true,
+        "supports_native_streaming": true,
+        "supports_prompt_caching": true,
+        "supports_reasoning": true,
+        "supports_tool_choice": true,
+        "supports_vision": true
+    },
     "xai/grok-voice-3.0": {
         "input_cost_per_second": 0.001333333333333,
         "input_cost_per_text_message": 0.004,
