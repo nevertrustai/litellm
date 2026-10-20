@@ -75662,7 +75662,7 @@
         "supports_reasoning": true,
         "source": "https://api.openinfer.ai/v1/models"
     },
-    "safeailabs/deepseek/deepseek-v4.1-flash": {
+    "safeailabs/sail-frontier": {
         "cache_read_input_token_cost": 3e-08,
         "input_cost_per_token": 3e-07,
         "litellm_provider": "safeailabs",

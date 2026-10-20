@@ -15,13 +15,13 @@ def test_safeailabs_provider_resolution(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setenv("SAFE_AI_KEY", "sail_test-key")
 
     model, provider, api_key, api_base = get_llm_provider(
-        model="safeailabs/deepseek/deepseek-v4.1-flash",
+        model="safeailabs/sail-frontier",
         custom_llm_provider=None,
         api_base=None,
         api_key=None,
     )
 
-    assert model == "deepseek/deepseek-v4.1-flash"
+    assert model == "sail-frontier"
     assert provider == "safeailabs"
     assert api_key == "sail_test-key"
     assert api_base == "https://us-region.api.safeailabs.ai/v1"
@@ -33,7 +33,7 @@ def test_safeailabs_provider_keeps_explicit_credentials(monkeypatch: pytest.Monk
     monkeypatch.setenv("SAFE_AI_KEY", "sail_env-key")
 
     _, provider, api_key, api_base = get_llm_provider(
-        model="safeailabs/deepseek/deepseek-v4.1-flash",
+        model="safeailabs/sail-frontier",
         custom_llm_provider=None,
         api_base="https://gbl.api.safeailabs.ai/v1",
         api_key="sail_explicit-key",
@@ -51,7 +51,7 @@ def test_safeailabs_base_url_env_selects_another_region(monkeypatch: pytest.Monk
     monkeypatch.setenv("SAFE_AI_BASE_URL", "https://gbl.api.safeailabs.ai/v1")
 
     _, provider, _, api_base = get_llm_provider(
-        model="safeailabs/deepseek/deepseek-v4.1-flash",
+        model="safeailabs/sail-frontier",
         custom_llm_provider=None,
         api_base=None,
         api_key=None,
@@ -63,7 +63,7 @@ def test_safeailabs_base_url_env_selects_another_region(monkeypatch: pytest.Monk
 
 @pytest.mark.usefixtures("local_model_cost_map")
 def test_safeailabs_model_info_matches_the_models_endpoint():
-    info = litellm.get_model_info("safeailabs/deepseek/deepseek-v4.1-flash")
+    info = litellm.get_model_info("safeailabs/sail-frontier")
 
     assert info["litellm_provider"] == "safeailabs"
     assert info["max_input_tokens"] == 1_048_576
@@ -82,7 +82,7 @@ def test_safeailabs_is_available_in_add_model_form():
 
     assert safeailabs["provider"] == "SAFEAILABS"
     assert safeailabs["provider_display_name"] == "Safe AI Labs"
-    assert safeailabs["default_model_placeholder"] == "safeailabs/deepseek/deepseek-v4.1-flash"
+    assert safeailabs["default_model_placeholder"] == "safeailabs/sail-frontier"
     assert {field["key"]: field["required"] for field in safeailabs["credential_fields"]} == {
         "api_base": False,
         "api_key": True,
@@ -117,7 +117,7 @@ def test_safeailabs_chat_completion_request():
                 "id": "chatcmpl_safeailabs",
                 "object": "chat.completion",
                 "created": 1_789_550_000,
-                "model": "deepseek/deepseek-v4.1-flash",
+                "model": "sail-frontier",
                 "choices": [
                     {
                         "index": 0,
@@ -129,7 +129,7 @@ def test_safeailabs_chat_completion_request():
             },
         )
         response: Final = litellm.completion(
-            model="safeailabs/deepseek/deepseek-v4.1-flash",
+            model="safeailabs/sail-frontier",
             messages=[{"role": "user", "content": "Say hello"}],
             api_key="sail_test-key",
         )
@@ -139,7 +139,7 @@ def test_safeailabs_chat_completion_request():
     assert route.call_count == 1
     assert str(request.url) == "https://us-region.api.safeailabs.ai/v1/chat/completions"
     assert request.headers["authorization"] == "Bearer sail_test-key"
-    assert body["model"] == "deepseek/deepseek-v4.1-flash"
+    assert body["model"] == "sail-frontier"
     assert body["messages"] == [{"role": "user", "content": "Say hello"}]
     assert response.choices[0].message.content == "Hello from Safe AI Labs"
 
@@ -152,7 +152,7 @@ def test_safeailabs_responses_request():
                 "id": "resp_safeailabs",
                 "object": "response",
                 "created_at": 1_789_550_000,
-                "model": "deepseek/deepseek-v4.1-flash",
+                "model": "sail-frontier",
                 "status": "completed",
                 "output": [
                     {
@@ -167,7 +167,7 @@ def test_safeailabs_responses_request():
             },
         )
         response: Final = litellm.responses(
-            model="safeailabs/deepseek/deepseek-v4.1-flash",
+            model="safeailabs/sail-frontier",
             input="Say hello",
             api_key="sail_test-key",
         )
@@ -177,7 +177,7 @@ def test_safeailabs_responses_request():
     assert route.call_count == 1
     assert str(request.url) == "https://us-region.api.safeailabs.ai/v1/responses"
     assert request.headers["authorization"] == "Bearer sail_test-key"
-    assert body["model"] == "deepseek/deepseek-v4.1-flash"
+    assert body["model"] == "sail-frontier"
     assert body["input"] == "Say hello"
     assert response.output[0].content[0].text == "Hello from Safe AI Labs"
 
@@ -193,7 +193,7 @@ async def test_safeailabs_anthropic_messages_request(monkeypatch: pytest.MonkeyP
                 "id": "msg_safeailabs",
                 "type": "message",
                 "role": "assistant",
-                "model": "deepseek/deepseek-v4.1-flash",
+                "model": "sail-frontier",
                 "content": [{"type": "text", "text": "Hello from Safe AI Labs"}],
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
@@ -201,7 +201,7 @@ async def test_safeailabs_anthropic_messages_request(monkeypatch: pytest.MonkeyP
             },
         )
         response: Final = await litellm.anthropic.messages.acreate(
-            model="safeailabs/deepseek/deepseek-v4.1-flash",
+            model="safeailabs/sail-frontier",
             messages=[{"role": "user", "content": "Say hello"}],
             max_tokens=32,
             api_key="sail_test-key",
@@ -213,6 +213,6 @@ async def test_safeailabs_anthropic_messages_request(monkeypatch: pytest.MonkeyP
     assert str(request.url) == "https://us-region.api.safeailabs.ai/v1/messages"
     assert request.headers["authorization"] == "Bearer sail_test-key"
     assert request.headers["anthropic-version"] == "2023-06-01"
-    assert body["model"] == "deepseek/deepseek-v4.1-flash"
+    assert body["model"] == "sail-frontier"
     assert body["messages"] == [{"role": "user", "content": "Say hello"}]
     assert response["content"][0]["text"] == "Hello from Safe AI Labs"
